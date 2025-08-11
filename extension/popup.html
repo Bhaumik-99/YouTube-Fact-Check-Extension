@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h2>YouTube Fact Checker</h2>
+    
+    <div class="section">
+      <label for="apiKey">Backend API Key:</label>
+      <input type="password" id="apiKey" placeholder="Enter your API key">
+      <button id="saveApiKey">Save</button>
+    </div>
+    
+    <div class="section">
+      <label>
+        <input type="checkbox" id="autoAnalysis"> 
+        Enable auto-analysis
+      </label>
+    </div>
+    
+    <div class="section">
+      <button id="toggleAnalysis">Toggle Analysis</button>
+    </div>
+    
+    <div class="section">
+      <h3>Instructions:</h3>
+      <ol>
+        <li>Start the backend server (localhost:8000)</li>
+        <li>Set your API key above</li>
+        <li>Navigate to a YouTube video</li>
+        <li>Analysis will start automatically</li>
+      </ol>
+    </div>
+    
+    <div class="status" id="status"></div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
