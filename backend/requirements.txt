@@ -7,3 +7,4 @@ python-jose==3.3.0
 python-dotenv==1.0.0
 whisper-openai==20231117
 torch==2.1.1
+transformers==4.35.2
