@@ -1,8 +1,3 @@
-"""
-FastAPI backend for YouTube fact-checking extension
-Handles audio processing, claim extraction, and fact verification
-"""
-
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
