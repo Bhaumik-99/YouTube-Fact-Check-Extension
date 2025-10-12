@@ -7,7 +7,7 @@ import asyncio
 
 logger = logging.getLogger(__name__)
 
-class ClaimExtractor:
+class ClaimExtractor: 
     def __init__(self, config):
         self.config = config
         
