@@ -1,7 +1,7 @@
 import os
 from typing import Optional
 
-class Config: 
+class Config:  
     """Configuration class for fact-checker backend"""
     
     def __init__(self):
