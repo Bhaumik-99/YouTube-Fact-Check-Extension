@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class ClaimExtractor: 
     def __init__(self, config):
         self.config = config
-        
+         
     async def audio_to_text(self, audio_path: str, api_key: str) -> str:
         """
         Convert audio file to text using OpenAI Whisper API
