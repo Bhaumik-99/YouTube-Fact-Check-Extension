@@ -6,7 +6,7 @@ import logging
 import asyncio     
          
 logger = logging.getLogger(__name__)
-    
+     
 class ClaimExtractor:
     """
     A class to handle audio transcription using OpenAI Whisper API.
