@@ -7,34 +7,59 @@ import asyncio
         
 logger = logging.getLogger(__name__)
     
-class ClaimExtractor: 
-    def __init__(self, config):
+class ClaimExtractor:
+    """
+    A class to handle audio transcription using OpenAI Whisper API.
+    """
+
+    def __init__(self, config: dict):
         self.config = config
-         
-    async def audio_to_text(self, audio_path: str, api_key: str) -> str:
+        self.logger = logging.getLogger(__name__)
+        logging.basicConfig(level=logging.INFO)
+
+    async def audio_to_text(self, audio_path: str, api_key: str, language: Optional[str] = "en") -> str:
         """
-        Convert audio file to text using OpenAI Whisper API
-        
+        Convert an audio file to text using the OpenAI Whisper API.
+
         Args:
-            audio_path: Path to audio file
-            api_key: OpenAI API key
-            
+            audio_path (str): Path to the audio file.
+            api_key (str): OpenAI API key.
+            language (Optional[str]): Language of the audio. Defaults to 'en'.
+
         Returns:
-            Transcribed text
+            str: Transcribed text from the audio.
         """
+        openai.api_key = api_key
+
         try:
-            # Set OpenAI API key
-            openai.api_key = api_key
+            self.logger.info(f"Starting transcription for: {audio_path}")
             
-            with open(audio_path, 'rb') as audio_file:
-                # Use OpenAI Whisper API
-                response = openai.Audio.transcribe(
-                    model="whisper-1",
-                    file=audio_file,
-                    language="en"  # Can be made configurable
-                )
-                
-            return response.text.strip()
+            # Use asyncio.to_thread for non-blocking file I/O
+            def transcribe_audio():
+                with open(audio_path, "rb") as audio_file:
+                    return openai.Audio.transcribe(
+                        model="whisper-1",
+                        file=audio_file,
+                        language=language
+                    )
+
+            response = await asyncio.to_thread(transcribe_audio)
+            transcript = response.text.strip() if hasattr(response, "text") else response["text"].strip()
+
+            self.logger.info("Transcription successful.")
+            return transcript
+
+        except FileNotFoundError:
+            self.logger.error(f"Audio file not found: {audio_path}")
+            raise
+
+        except openai.error.OpenAIError as e:
+            self.logger.error(f"OpenAI API error: {e}")
+            raise
+
+        except Exception as e:
+            self.logger.exception("Unexpected error during transcription.")
+            raise
             
         except Exception as e:
             logger.error(f"Error in audio transcription: {str(e)}")
